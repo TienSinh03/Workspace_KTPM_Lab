@@ -13,7 +13,7 @@ spring:
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/orders/**
+            - Path=/api/v1/orders/**
 server:
   port: 8080
 

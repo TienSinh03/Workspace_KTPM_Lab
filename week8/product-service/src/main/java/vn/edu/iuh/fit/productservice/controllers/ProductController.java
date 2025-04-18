@@ -69,9 +69,4 @@ public class ProductController {
         return ResponseEntity.status(200).body("Xoa thanhf coong");
     }
 
-    @GetMapping("/test")
-    public List<String> test() {
-        return Arrays.asList("A", "B", "C");
-    }
-
 }
