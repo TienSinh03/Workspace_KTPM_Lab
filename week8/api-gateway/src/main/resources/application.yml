@@ -7,7 +7,7 @@ spring:
         - id: product-service
           uri: lb://product-service
           predicates:
-            - Path=/products/**
+            - Path=/api/v1/products/**
           filters:
             - AddRequestHeader=Authorization, Bearer
         - id: order-service

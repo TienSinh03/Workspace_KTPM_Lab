@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.edu.iuh.fit.productservice.entities.Product;
 import vn.edu.iuh.fit.productservice.serivces.ProductService;
 
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -30,25 +31,47 @@ public class ProductController {
 
         List<Product> products = productService.findAll();
         System.out.println("Products: " + products.size());
-        products.forEach(System.out::println);
+        for (Product product : products) {
+            System.out.println("Product: " + product);
+        }
         if(products.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(products);
+        return ResponseEntity.status(200).body(products);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Product product = productService.findById(id);
         if(product == null) {
             return ResponseEntity.notFound().build();
         }
+        System.out.println("Product: " + product);
         return ResponseEntity.ok(product);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         Product createdProduct = productService.save(product);
         return ResponseEntity.status(200).body(createdProduct);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        product.setId(id);
+        Product update = productService.save(product);
+        return ResponseEntity.status(200).body(update);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+         productService.deleteProduct(id);
+        return ResponseEntity.status(200).body("Xoa thanhf coong");
+    }
+
+    @GetMapping("/test")
+    public List<String> test() {
+        return Arrays.asList("A", "B", "C");
+    }
+
 }

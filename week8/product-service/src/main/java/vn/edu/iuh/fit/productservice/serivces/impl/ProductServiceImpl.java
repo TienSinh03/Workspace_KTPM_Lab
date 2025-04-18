@@ -28,6 +28,26 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(Product product) {
+        System.out.println("Product: " + product.getId() + " " + product.getName() + " " + product.getDescription() + " " + product.getPrice());
+        if (product.getId() == null || product.getId() == 0) {
+            product = product;
+        } else {
+            product = productRepository.findById(product.getId()).orElse(null);
+            if(product == null) {
+                return null;
+            }
+            if (product.getName() != null) {
+                product.setName(product.getName());
+            }
+            if (product.getDescription() != null) {
+                product.setDescription(product.getDescription());
+            }
+            if (product.getPrice() != 0) {
+                product.setPrice(product.getPrice());
+            }
+
+        }
+        System.out.println(product);
         return productRepository.save(product);
     }
 
@@ -39,5 +59,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
     }
 }
